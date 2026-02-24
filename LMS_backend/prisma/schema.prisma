@@ -1,0 +1,117 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      Role
+  courses   Course[] @relation("CourseTeachers")
+  enrollments Enrollment[]
+  resetToken String?
+  resetTokenExpiry DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Role {
+  ADMIN
+  TEACHER
+  HEAD
+  MANAGEMENT
+  STUDENT
+}
+
+model Course {
+  id          String       @id @default(cuid())
+  title       String
+  description String?
+  active      Boolean      @default(true)
+  teachers    User[]       @relation("CourseTeachers")
+  enrollments Enrollment[]
+  materials   Material[]
+  lectures    Lecture[]
+  meetings    Meeting[]
+  notices     Notice[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model Enrollment {
+  id        String @id @default(cuid())
+  student   User   @relation(fields: [studentId], references: [id])
+  studentId String
+  course    Course @relation(fields: [courseId], references: [id])
+  courseId  String
+  createdAt DateTime @default(now())
+
+  @@unique([studentId, courseId])
+}
+
+model Material {
+  id        String  @id @default(cuid())
+  course    Course  @relation(fields: [courseId], references: [id])
+  courseId  String
+  title     String
+  type      MaterialType
+  filePath  String
+  uploadedBy String
+  createdAt DateTime @default(now())
+}
+
+enum MaterialType {
+  STUDY_MATERIAL
+  RECORDED_LECTURE
+}
+
+model Lecture {
+  id          String  @id @default(cuid())
+  course      Course  @relation(fields: [courseId], references: [id])
+  courseId    String
+  title       String
+  scheduledAt DateTime
+  recordPath  String?
+  createdBy   String
+  createdAt   DateTime @default(now())
+}
+
+model Meeting {
+  id          String    @id @default(cuid())
+  course      Course    @relation(fields: [courseId], references: [id])
+  courseId    String
+  title       String
+  meetLink    String
+  description String?
+  scheduledAt DateTime?
+  createdBy   String
+  createdAt   DateTime  @default(now())
+}
+
+model Notice {
+  id        String  @id @default(cuid())
+  course    Course? @relation(fields: [courseId], references: [id])
+  courseId  String?
+  title     String
+  body      String
+  postedBy  String
+  createdAt DateTime @default(now())
+}
+
+model Activity {
+  id        String  @id @default(cuid())
+  actorId   String
+  action    String
+  entity    String
+  entityId  String
+  createdAt DateTime @default(now())
+}
