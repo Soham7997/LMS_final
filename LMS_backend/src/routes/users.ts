@@ -1,3 +1,5 @@
+export {};
+
 const { Router } = require('express');
 const bcrypt = require('bcryptjs');
 const { PrismaClient } = require('@prisma/client');

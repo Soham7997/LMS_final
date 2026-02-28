@@ -1,3 +1,5 @@
+export {};
+
 /**
  * Creates a Google Calendar event with Google Meet and returns the Meet link.
  *

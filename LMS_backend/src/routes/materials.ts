@@ -1,3 +1,5 @@
+export {};
+
 const { Router } = require('express');
 const multer = require('multer');
 const path = require('path');
@@ -625,5 +627,10 @@ function getContentType(ext: string): string {
   return contentTypes[ext] || 'application/octet-stream';
 }
 
+// Helper function to get video content type (uses content types above)
+function getVideoContentType(ext: string): string {
+  const contentType = getContentType(ext);
+  return contentType.startsWith('video/') ? contentType : 'video/mp4';
+}
 
 module.exports = router;

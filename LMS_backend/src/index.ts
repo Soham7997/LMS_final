@@ -1,3 +1,5 @@
+export {};
+
 const express = require('express');
 const dotenv = require('dotenv');
 const { PrismaClient } = require('@prisma/client');

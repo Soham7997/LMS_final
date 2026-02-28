@@ -1,11 +1,11 @@
-const express = require('express');
+import type { Request, Response, NextFunction } from 'express';
 const jwt = require('jsonwebtoken');
 const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
 
 // Define AuthRequest interface
-interface AuthRequest extends express.Request {
+interface AuthRequest extends Request {
   user?: {
     id: string;
     email: string;
@@ -16,8 +16,8 @@ interface AuthRequest extends express.Request {
 
 const authenticateToken = async (
   req: AuthRequest,
-  res: express.Response,
-  next: express.NextFunction
+  res: Response,
+  next: NextFunction
 ): Promise<void> => {
   try {
     const authHeader = req.headers.authorization;

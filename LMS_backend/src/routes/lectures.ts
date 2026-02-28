@@ -1,3 +1,5 @@
+export {};
+
 const { Router } = require('express');
 const multer = require('multer');
 const path = require('path');
@@ -7,7 +9,6 @@ const { authenticateToken } = require('../middleware/auth');
 const { requireLectureUpload } = require('../middleware/roles');
 const { uploadToLocal, getLocalFilePath, deleteLocalFile, STORAGE_TYPE, isS3Configured } = require('../utils/s3Storage');
 
-// Define AuthRequest interface locally since we can't import types in CommonJS
 interface AuthRequest {
   user?: {
     id: string;
@@ -15,6 +16,9 @@ interface AuthRequest {
     name: string;
     role: string;
   };
+  body?: any;
+  params?: any;
+  file?: any;
 }
 
 const router = Router();

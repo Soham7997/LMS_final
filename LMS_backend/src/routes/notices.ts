@@ -1,9 +1,10 @@
+export {};
+
 const { Router } = require('express');
 const { PrismaClient } = require('@prisma/client');
 const { authenticateToken } = require('../middleware/auth');
 const { requireNoticeCreation } = require('../middleware/roles');
 
-// Define AuthRequest interface locally since we can't import types in CommonJS
 interface AuthRequest {
   user?: {
     id: string;
@@ -11,6 +12,8 @@ interface AuthRequest {
     name: string;
     role: string;
   };
+  body?: any;
+  params?: any;
 }
 
 const router = Router();

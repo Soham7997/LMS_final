@@ -1,7 +1,7 @@
-const express = require('express');
+import type { Request, Response, NextFunction } from 'express';
 
-// Define AuthRequest interface locally since we can't import types in CommonJS
-interface AuthRequest {
+// Define AuthRequest interface
+interface AuthRequest extends Request {
   user?: {
     id: string;
     email: string;
